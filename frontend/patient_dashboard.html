@@ -3,32 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Dashboard - MediCare</title>
+    <title>Patient Dashboard - MediCare Elite</title>
     <style>
         :root {
-            --primary-color: #14b8a6;
-            --primary-hover: #0d9488;
-            --secondary-color: #06b6d4;
-            --accent-color: #f59e0b;
-            --dark-color: #1f2937;
-            --darker-color: #111827;
-            --light-color: #f8fafc;
-            --white: #ffffff;
-            --danger-color: #ef4444;
-            --success-color: #22c55e;
-            --warning-color: #f59e0b;
-            --info-color: #3b82f6;
-            --border-color: #e2e8f0;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            --border-radius: 12px;
-            --border-radius-lg: 16px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --primary-gradient: linear-gradient(135deg, #ff006e 0%, #fb5607 100%);
+            --secondary-gradient: linear-gradient(135deg, #8338ec 0%, #3a86ff 100%);
+            --accent-gradient: linear-gradient(135deg, #06ffa5 0%, #00d9ff 100%);
+            --success-gradient: linear-gradient(135deg, #00f5ff 0%, #00b4d8 100%);
+            --warning-gradient: linear-gradient(135deg, #ffbe0b 0%, #fb8500 100%);
+            --danger-gradient: linear-gradient(135deg, #ff006e 0%, #c77dff 100%);
+            --dark-gradient: linear-gradient(135deg, #240046 0%, #3c096c 100%);
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.25);
+            --shadow-soft: 0 8px 32px 0 rgba(255, 0, 110, 0.2);
+            --shadow-hover: 0 15px 40px 0 rgba(255, 0, 110, 0.35);
+            --border-radius: 20px;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         * {
@@ -38,88 +28,97 @@
         }
 
         body {
-            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-            color: var(--text-primary);
-            font-family: var(--font-primary);
-            line-height: 1.6;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #ff006e 0%, #8338ec 25%, #3a86ff 50%, #06ffa5 75%, #ffbe0b 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            background-attachment: fixed;
+            color: #1a202c;
             overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .dashboard-container {
             display: grid;
             grid-template-columns: 280px 1fr;
             min-height: 100vh;
-            position: relative;
+            gap: 0;
         }
 
-        /* Sidebar Styles */
+        /* Enhanced Sidebar */
         .sidebar {
-            background: linear-gradient(180deg, var(--darker-color) 0%, var(--dark-color) 100%);
+            background: rgba(36, 0, 70, 0.9);
+            backdrop-filter: blur(20px);
+            border-right: 2px solid rgba(255, 0, 110, 0.3);
             color: white;
-            position: fixed;
+            padding: 30px 0;
+            position: sticky;
             top: 0;
-            left: 0;
             height: 100vh;
-            width: 280px;
-            z-index: 1000;
             transition: var(--transition);
-            box-shadow: var(--shadow-xl);
-        }
-
-        .sidebar.hidden {
-            transform: translateX(-100%);
+            box-shadow: 0 0 30px rgba(255, 0, 110, 0.2);
         }
 
         .profile-section {
             text-align: center;
-            padding: 32px 24px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.05);
+            padding: 30px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            margin-bottom: 20px;
         }
 
         .profile-img {
-            width: 80px;
-            height: 80px;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--primary-color);
-            margin-bottom: 16px;
-            box-shadow: var(--shadow-lg);
+            background: var(--accent-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 36px;
+            color: white;
+            box-shadow: var(--shadow-soft);
             transition: var(--transition);
         }
 
         .profile-img:hover {
             transform: scale(1.05);
-            border-color: var(--secondary-color);
+            box-shadow: var(--shadow-hover);
         }
 
         .profile-name {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 600;
             margin-bottom: 8px;
-            color: white;
+            background: linear-gradient(45deg, #ffffff, #f0f8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .profile-email {
             font-size: 13px;
             opacity: 0.8;
-            color: #cbd5e1;
+            color: #e2e8f0;
         }
 
         .nav-menu {
-            padding: 24px 0;
+            padding: 0 10px;
         }
 
         .nav-item {
-            margin: 4px 16px;
             padding: 16px 20px;
+            margin: 8px 0;
             cursor: pointer;
+            border-radius: 15px;
             transition: var(--transition);
             display: flex;
             align-items: center;
-            border-radius: var(--border-radius);
-            font-weight: 500;
-            color: #cbd5e1;
             position: relative;
             overflow: hidden;
         }
@@ -128,58 +127,47 @@
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
-            width: 0;
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            transition: var(--transition);
-            z-index: -1;
-        }
-
-        .nav-item:hover::before,
-        .nav-item.active::before {
+            left: -100%;
             width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: var(--transition);
         }
 
-        .nav-item:hover,
+        .nav-item:hover::before {
+            left: 100%;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: var(--primary-gradient);
+            transform: translateX(12px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(255, 0, 110, 0.4);
+            border-radius: 15px;
+        }
+
         .nav-item.active {
-            color: white;
-            transform: translateX(4px);
-            box-shadow: var(--shadow-lg);
+            background: var(--accent-gradient);
+            border-left: 4px solid #06ffa5;
+            box-shadow: 0 8px 25px rgba(6, 255, 165, 0.4);
         }
 
         .nav-item i {
-            margin-right: 16px;
+            margin-right: 15px;
             font-size: 18px;
-            width: 20px;
+            width: 24px;
             text-align: center;
         }
 
-        /* Mobile Menu Toggle */
-        .mobile-menu-toggle {
-            display: none;
-            position: fixed;
-            top: 24px;
-            left: 24px;
-            z-index: 1100;
-            background: var(--white);
-            border: none;
-            padding: 12px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-lg);
-            cursor: pointer;
-            transition: var(--transition);
+        .nav-item span {
+            font-weight: 500;
+            font-size: 15px;
         }
 
-        .mobile-menu-toggle:hover {
-            transform: scale(1.05);
-            box-shadow: var(--shadow-xl);
-        }
-
-        /* Main Content Styles */
+        /* Enhanced Main Content */
         .main-content {
-            padding: 32px;
-            margin-left: 0;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
         }
 
         .header {
@@ -187,40 +175,40 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 40px;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 24px 32px;
-            border-radius: var(--border-radius-lg);
-            box-shadow: var(--shadow-md);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-soft);
         }
 
         .page-title {
             font-size: 32px;
             font-weight: 700;
-            color: var(--text-primary);
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background: white;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-shadow: 0 4px 8px rgba(255, 0, 110, 0.3);
+            color: white;
         }
 
         .search-bar {
             display: flex;
             align-items: center;
-            background: var(--white);
+            background: rgba(255, 255, 255, 0.9);
             padding: 12px 20px;
-            border-radius: 50px;
-            box-shadow: var(--shadow-md);
-            width: 320px;
-            border: 2px solid transparent;
+            border-radius: 30px;
+            box-shadow: var(--shadow-soft);
+            width: 350px;
             transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .search-bar:focus-within {
-            border-color: var(--primary-color);
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-2px);
+            transform: scale(1.02);
+            box-shadow: var(--shadow-hover);
         }
 
         .search-bar input {
@@ -229,34 +217,36 @@
             padding: 8px;
             width: 100%;
             font-size: 15px;
-            color: var(--text-primary);
+            background: transparent;
+            color: #2d3748;
         }
 
         .search-bar input::placeholder {
-            color: var(--text-secondary);
+            color: #a0aec0;
         }
 
         .search-bar i {
-            color: var(--text-secondary);
+            color: #ff006e;
             margin-right: 12px;
-            font-size: 18px;
+            font-size: 16px;
         }
 
-        /* Stats Cards */
+        /* Enhanced Cards */
         .cards-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
             margin-bottom: 40px;
         }
 
         .card {
-            background: var(--white);
-            border-radius: var(--border-radius-lg);
-            padding: 32px;
-            box-shadow: var(--shadow-md);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-soft);
             transition: var(--transition);
-            border: 1px solid var(--border-color);
             position: relative;
             overflow: hidden;
         }
@@ -266,52 +256,80 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
+            right: 0;
             height: 4px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            background: var(--primary-gradient);
         }
 
         .card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-xl);
-            border-color: var(--primary-color);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-hover);
         }
+
+        .card:nth-child(1)::before { background: var(--primary-gradient); }
+        .card:nth-child(2)::before { background: var(--secondary-gradient); }
+        .card:nth-child(3)::before { background: var(--accent-gradient); }
 
         .card-title {
             font-size: 16px;
             font-weight: 600;
             margin-bottom: 20px;
-            color: var(--text-secondary);
+            color: #1a202c;
             display: flex;
             align-items: center;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .card-title i {
             margin-right: 12px;
-            font-size: 20px;
-            color: var(--primary-color);
-            background: rgba(20, 184, 166, 0.1);
-            padding: 8px;
-            border-radius: 8px;
+            padding: 12px;
+            background: var(--primary-gradient);
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(255, 0, 110, 0.3);
+        }
+
+        .card:nth-child(2) .card-title i {
+            background: var(--secondary-gradient);
+            box-shadow: 0 4px 15px rgba(131, 56, 236, 0.3);
+        }
+
+        .card:nth-child(3) .card-title i {
+            background: var(--accent-gradient);
+            box-shadow: 0 4px 15px rgba(6, 255, 165, 0.3);
         }
 
         .card-value {
             font-size: 48px;
             font-weight: 800;
-            margin-bottom: 12px;
-            color: var(--text-primary);
-            line-height: 1;
+            margin-bottom: 15px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .card:nth-child(2) .card-value {
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .card:nth-child(3) .card-value {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .card-description {
-            font-size: 15px;
-            color: var(--text-secondary);
+            font-size: 14px;
+            color: #718096;
             font-weight: 500;
         }
 
-        /* Action Buttons */
+        /* Enhanced Action Buttons */
         .action-buttons {
             display: flex;
             gap: 20px;
@@ -321,7 +339,7 @@
 
         .btn {
             padding: 16px 32px;
-            border-radius: var(--border-radius);
+            border-radius: 50px;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
@@ -333,46 +351,50 @@
             font-size: 15px;
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(20px);
+            box-shadow: var(--shadow-soft);
         }
 
         .btn::before {
             content: '';
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             transition: var(--transition);
-            transform: translate(-50%, -50%);
         }
 
         .btn:hover::before {
-            width: 300px;
-            height: 300px;
+            left: 100%;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            background: var(--primary-gradient);
             color: white;
-            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-primary a {
+            color: inherit;
+            text-decoration: none;
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-xl);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: var(--shadow-hover);
         }
 
         .btn-secondary {
-            background: linear-gradient(135deg, var(--secondary-color), var(--info-color));
+            background: var(--secondary-gradient);
             color: white;
-            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .btn-secondary:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-xl);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: var(--shadow-hover);
         }
 
         .btn i {
@@ -380,117 +402,131 @@
             font-size: 16px;
         }
 
-        /* Section Styles */
+        /* Enhanced Sections */
         .section {
-            background: var(--white);
-            border-radius: var(--border-radius-lg);
-            padding: 40px;
-            margin-bottom: 40px;
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border-color);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 35px;
+            margin-bottom: 30px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-soft);
             transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-gradient);
         }
 
         .section:hover {
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-hover);
         }
 
         .section-title {
             font-size: 24px;
             font-weight: 700;
-            margin-bottom: 32px;
-            color: var(--text-primary);
+            margin-bottom: 30px;
+            color: #2d3748;
             display: flex;
             align-items: center;
             position: relative;
-            padding-bottom: 16px;
+        }
+
+        .section-title i {
+            margin-right: 15px;
+            padding: 15px;
+            background: var(--primary-gradient);
+            border-radius: 15px;
+            color: white;
+            font-size: 18px;
+            box-shadow: var(--shadow-soft);
         }
 
         .section-title::after {
             content: '';
             position: absolute;
-            bottom: 0;
+            bottom: -10px;
             left: 0;
             width: 60px;
             height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            background: var(--primary-gradient);
             border-radius: 2px;
         }
 
-        .section-title i {
-            margin-right: 16px;
-            font-size: 24px;
-            color: var(--primary-color);
-            background: rgba(20, 184, 166, 0.1);
-            padding: 12px;
-            border-radius: var(--border-radius);
-        }
-
-        /* Hospital Info */
+        /* Enhanced Hospital Info */
         .hospital-info {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
         }
 
         .info-item {
             display: flex;
             align-items: flex-start;
-            padding: 24px;
-            background: rgba(20, 184, 166, 0.02);
-            border-radius: var(--border-radius);
-            border: 1px solid rgba(20, 184, 166, 0.1);
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 15px;
             transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .info-item:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--primary-color);
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.6);
+            box-shadow: var(--shadow-soft);
         }
 
         .info-icon {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            width: 56px;
-            height: 56px;
-            border-radius: var(--border-radius);
+            background: var(--primary-gradient);
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-right: 20px;
             color: white;
             font-size: 20px;
+            box-shadow: var(--shadow-soft);
             flex-shrink: 0;
-            box-shadow: var(--shadow-md);
         }
 
         .info-content h4 {
             font-size: 18px;
             margin-bottom: 8px;
-            color: var(--text-primary);
+            color: #2d3748;
             font-weight: 600;
         }
 
         .info-content p {
-            font-size: 15px;
-            color: var(--text-secondary);
+            font-size: 14px;
+            color: #4a5568;
             line-height: 1.6;
         }
 
-        /* Doctors Grid */
+        /* Enhanced Doctors Section */
         .doctors-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 32px;
+            gap: 25px;
         }
 
         .doctor-card {
-            background: var(--white);
-            border-radius: var(--border-radius-lg);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
             overflow: hidden;
-            box-shadow: var(--shadow-md);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-soft);
             transition: var(--transition);
-            border: 1px solid var(--border-color);
             position: relative;
         }
 
@@ -499,45 +535,50 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
+            right: 0;
             height: 4px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            background: var(--accent-gradient);
         }
 
         .doctor-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-xl);
-            border-color: var(--primary-color);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-hover);
         }
 
-        .doctor-img {
+        .doctor-img-placeholder {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            height: 180px;
+            background: var(--accent-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
         }
 
         .doctor-info {
-            padding: 32px;
+            padding: 25px;
         }
 
         .doctor-name {
             font-size: 20px;
             font-weight: 700;
             margin-bottom: 8px;
-            color: var(--text-primary);
+            color: #2d3748;
         }
 
         .doctor-specialty {
-            color: var(--primary-color);
-            font-size: 15px;
-            margin-bottom: 20px;
-            display: block;
+            background: var(--secondary-gradient);
+            color: white;
+            font-size: 14px;
+            margin-bottom: 15px;
             font-weight: 600;
-            background: rgba(20, 184, 166, 0.1);
-            padding: 8px 12px;
-            border-radius: 20px;
-            width: fit-content;
+            padding: 8px 16px;
+            border-radius: 25px;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(131, 56, 236, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .doctor-meta {
@@ -545,69 +586,92 @@
             justify-content: space-between;
             margin-top: 20px;
             font-size: 14px;
-            color: var(--text-secondary);
+            color: #4a5568;
         }
 
         .doctor-meta span {
             display: flex;
             align-items: center;
-            background: rgba(107, 114, 128, 0.1);
-            padding: 8px 12px;
-            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 6px 12px;
+            border-radius: 15px;
             font-weight: 500;
         }
 
         .doctor-meta i {
             margin-right: 6px;
-            color: var(--warning-color);
+            color: #ffd700;
         }
 
-        /* Schedule Table */
-        .table-container {
-            overflow-x: auto;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .schedule-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: var(--white);
-        }
-
-        .schedule-table th,
-        .schedule-table td {
-            padding: 20px 24px;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .schedule-table th {
-            background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(6, 182, 212, 0.1));
-            color: var(--text-primary);
-            font-weight: 700;
+        .view-profile {
+            display: inline-block;
+            margin-top: 20px;
+            background: var(--accent-gradient);
+            color: white;
             font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(6, 255, 165, 0.3);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .schedule-table tr {
-            transition: var(--transition);
+        .view-profile:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 8px 25px rgba(6, 255, 165, 0.5);
         }
 
-        .schedule-table tr:hover {
-            background: rgba(20, 184, 166, 0.02);
+        /* Enhanced Schedule Table */
+        .schedule-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .schedule-table th {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 18px 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .schedule-table th:first-child {
+            border-top-left-radius: 15px;
+        }
+
+        .schedule-table th:last-child {
+            border-top-right-radius: 15px;
         }
 
         .schedule-table td {
-            font-size: 15px;
-            color: var(--text-primary);
-            font-weight: 500;
+            padding: 18px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            transition: var(--transition);
+            font-size: 14px;
+            color: #2d3748;
+        }
+
+        .schedule-table tr:hover td {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .schedule-table tr:last-child td {
+            border-bottom: none;
         }
 
         .status-badge {
             padding: 8px 16px;
-            border-radius: 20px;
+            border-radius: 25px;
             font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;
@@ -615,156 +679,141 @@
         }
 
         .status-available {
-            background: rgba(34, 197, 94, 0.1);
-            color: var(--success-color);
-            border: 1px solid rgba(34, 197, 94, 0.2);
+            background: var(--success-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(46, 213, 115, 0.3);
         }
 
         .status-unavailable {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger-color);
-            border: 1px solid rgba(239, 68, 68, 0.2);
+            background: var(--warning-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .card:nth-child(1) { animation: float 6s ease-in-out infinite; }
+        .card:nth-child(2) { animation: float 6s ease-in-out infinite 2s; }
+        .card:nth-child(3) { animation: float 6s ease-in-out infinite 4s; }
+
+        /* Pulse Animation for Important Elements */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(102, 126, 234, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0); }
+        }
+
+        .btn-primary:hover {
+            animation: pulse 2s infinite;
         }
 
         /* Responsive Design */
-        @media (max-width: 1024px) {
+        @media (max-width: 1200px) {
+            .dashboard-container {
+                grid-template-columns: 260px 1fr;
+            }
+        }
+
+        @media (max-width: 992px) {
             .dashboard-container {
                 grid-template-columns: 1fr;
             }
-
+            
             .sidebar {
-                transform: translateX(-100%);
+                display: none;
             }
-
-            .sidebar.open {
-                transform: translateX(0);
-            }
-
-            .mobile-menu-toggle {
-                display: block;
-            }
-
+            
             .main-content {
-                margin-left: 0;
-                padding: 24px;
+                padding: 20px;
             }
-
+            
             .header {
-                padding: 20px 24px;
+                padding: 20px;
+                flex-direction: column;
+                gap: 20px;
+                align-items: stretch;
             }
-
-            .page-title {
-                font-size: 24px;
-                margin-left: 60px;
-            }
-
+            
             .search-bar {
                 width: 100%;
-                margin-top: 16px;
             }
         }
 
         @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 16px;
+            .cards-container {
+                grid-template-columns: 1fr;
             }
-
-            .page-title {
-                margin-left: 0;
-                font-size: 20px;
+            
+            .doctors-grid {
+                grid-template-columns: 1fr;
             }
-
-            .search-bar {
-                width: 100%;
-                margin-top: 0;
-            }
-
+            
             .action-buttons {
                 flex-direction: column;
             }
-
-            .cards-container {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-
+            
             .hospital-info {
                 grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .doctors-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .section {
-                padding: 24px;
-                margin-bottom: 24px;
-            }
-
-            .main-content {
-                padding: 16px;
             }
         }
 
-        /* Mobile Overlay */
-        .mobile-overlay {
-            display: none;
-            position: fixed;
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-gradient);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-gradient);
+        }
+
+        /* Loading Animation */
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .loading {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
-            z-index: 999;
-        }
-
-        .mobile-overlay.active {
-            display: block;
-        }
-
-        /* Loading Animation */
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        .loading {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-
-        /* Smooth Scrolling */
-        html {
-            scroll-behavior: smooth;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <button class="mobile-menu-toggle" onclick="toggleSidebar()">
-        <i class="fas fa-bars"></i>
-    </button>
-
-    <div class="mobile-overlay" onclick="toggleSidebar()"></div>
-
     <div class="dashboard-container">
-        <!-- Sidebar -->
-        <div class="sidebar" id="sidebar">
+        <!-- Enhanced Sidebar -->
+        <div class="sidebar">
             <div class="profile-section">
-                <div class="profile-img" style="background: linear-gradient(135deg, #14b8a6, #06b6d4); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: bold;">
-                    <i class="fas fa-user"></i>
+                <div class="profile-img">
+                    <i class="fas fa-user-circle"></i>
                 </div>
-                <h3 class="profile-name">Patient Portal</h3>
-                <p class="profile-email">Welcome to MediCare</p>
+                <h3 class="profile-name">Welcome Back!</h3>
+                <p class="profile-email">Your Health Partner</p>
             </div>
             <div class="nav-menu">
                 <div class="nav-item active">
@@ -788,6 +837,10 @@
                     <span>Medical Records</span>
                 </div>
                 <div class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Health Analytics</span>
+                </div>
+                <div class="nav-item">
                     <i class="fas fa-cog"></i>
                     <span>Settings</span>
                 </div>
@@ -798,56 +851,70 @@
             </div>
         </div>
 
-        <!-- Main Content -->
+        <!-- Enhanced Main Content -->
         <div class="main-content">
             <div class="header">
                 <h1 class="page-title">Patient Dashboard</h1>
                 <div class="search-bar">
                     <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search doctors, appointments, records...">
+                    <input type="text" placeholder="Search doctors, departments, or services...">
                 </div>
             </div>
 
-            <!-- Quick Stats Cards -->
+            <!-- Enhanced Quick Stats Cards -->
             <div class="cards-container">
                 <div class="card">
-                    <h3 class="card-title"><i class="fas fa-user-md"></i> Available Doctors</h3>
+                    <h3 class="card-title">
+                        <i class="fas fa-user-md"></i>
+                        Available Doctors
+                    </h3>
                     <h2 class="card-value">11</h2>
-                    <p class="card-description">Specialists ready to help you today</p>
+                    <p class="card-description">Expert specialists ready to provide care</p>
                 </div>
                 <div class="card">
-                    <h3 class="card-title"><i class="fas fa-calendar"></i> Upcoming Appointments</h3>
+                    <h3 class="card-title">
+                        <i class="fas fa-calendar-alt"></i>
+                        Upcoming Appointments
+                    </h3>
                     <h2 class="card-value">2</h2>
-                    <p class="card-description">Your next visit is tomorrow at 10:00 AM</p>
+                    <p class="card-description">Your next consultation is scheduled tomorrow</p>
                 </div>
                 <div class="card">
-                    <h3 class="card-title"><i class="fas fa-hospital"></i> Departments</h3>
+                    <h3 class="card-title">
+                        <i class="fas fa-hospital"></i>
+                        Medical Departments
+                    </h3>
                     <h2 class="card-value">11</h2>
-                    <p class="card-description">Specialized medical care units</p>
+                    <p class="card-description">Comprehensive healthcare services</p>
                 </div>
             </div>
 
-            <!-- Action Buttons -->
+            <!-- Enhanced Action Buttons -->
             <div class="action-buttons">
-                <button class="btn btn-secondary" onclick="openDiseasePredictor()">
-                    <i class="fas fa-diagnoses"></i> AI Disease Predictor
-                </button>
                 <button class="btn btn-primary">
-                    <i class="fas fa-calendar-plus"></i> Book Appointment
+                    <a href="#" onclick="openDiseasePredictor()">
+                        <i class="fas fa-brain"></i> AI Disease Prediction
+                    </a> 
+                </button>
+                <button class="btn btn-secondary">
+                    <i class="fas fa-plus"></i> Book Appointment
                 </button>
             </div>
 
-            <!-- Hospital Information -->
+            <!-- Enhanced Hospital Information -->
             <div class="section">
-                <h2 class="section-title"><i class="fas fa-hospital"></i> Hospital Information</h2>
+                <h2 class="section-title">
+                    <i class="fas fa-hospital-user"></i>
+                    Hospital Information
+                </h2>
                 <div class="hospital-info">
                     <div class="info-item">
                         <div class="info-icon">
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <div class="info-content">
-                            <h4>Location</h4>
-                            <p>Near Sant Gajanan Maharaj Bhakti Niwas, Opposite MIT (ACS) College, Dehu Fata, Alandi Devachi, Tal - Khed, Dist - Pune 412105</p>
+                            <h4>Premium Location</h4>
+                            <p>Near Sant Gajanan Maharaj Bhakti Niwas, Opposite MIT (ACS) College<br>Dehu Fata, Alandi Devachi, Tal - Khed, Dist - Pune 412105</p>
                         </div>
                     </div>
                     
@@ -856,7 +923,7 @@
                             <i class="fas fa-phone-alt"></i>
                         </div>
                         <div class="info-content">
-                            <h4>Emergency Hotline</h4>
+                            <h4>24/7 Emergency</h4>
                             <p>+91 776-908-1996<br>+91 820-801-2952</p>
                         </div>
                     </div>
@@ -866,8 +933,8 @@
                             <i class="fas fa-clock"></i>
                         </div>
                         <div class="info-content">
-                            <h4>Operating Hours</h4>
-                            <p>🕒 24/7 Emergency Services<br>Monday to Sunday</p>
+                            <h4>Service Hours</h4>
+                            <p>🏥 Always Open - 24/7 Healthcare<br>Monday to Sunday</p>
                         </div>
                     </div>
                     
@@ -876,20 +943,23 @@
                             <i class="fas fa-envelope"></i>
                         </div>
                         <div class="info-content">
-                            <h4>Contact Information</h4>
-                            <p>sumeetkachare@gmail.com<br>+91 776-908-1996</p>
+                            <h4>Get in Touch</h4>
+                            <p>sumeetkachare@gmail.com<br>General Inquiries & Support</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Doctors Section -->
+            <!-- Enhanced Doctors Section -->
             <div class="section">
-                <h2 class="section-title"><i class="fas fa-user-md"></i> Our Specialist Doctors</h2>
+                <h2 class="section-title">
+                    <i class="fas fa-stethoscope"></i>
+                    Our Elite Medical Team
+                </h2>
                 <div class="doctors-grid">
                     <!-- Doctor 1 -->
                     <div class="doctor-card">
-                        <div class="doctor-img" style="display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+                        <div class="doctor-img-placeholder">
                             <i class="fas fa-user-md"></i>
                         </div>
                         <div class="doctor-info">
@@ -899,12 +969,13 @@
                                 <span><i class="fas fa-star"></i> 4.9</span>
                                 <span><i class="fas fa-briefcase"></i> 8 years</span>
                             </div>
+                            <a href="#" class="view-profile">View Full Profile</a>
                         </div>
                     </div>
                     
                     <!-- Doctor 2 -->
                     <div class="doctor-card">
-                        <div class="doctor-img" style="display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+                        <div class="doctor-img-placeholder">
                             <i class="fas fa-user-md"></i>
                         </div>
                         <div class="doctor-info">
@@ -914,12 +985,13 @@
                                 <span><i class="fas fa-star"></i> 4.8</span>
                                 <span><i class="fas fa-briefcase"></i> 12 years</span>
                             </div>
+                            <a href="#" class="view-profile">View Full Profile</a>
                         </div>
                     </div>
                     
                     <!-- Doctor 3 -->
                     <div class="doctor-card">
-                        <div class="doctor-img" style="display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+                        <div class="doctor-img-placeholder">
                             <i class="fas fa-user-md"></i>
                         </div>
                         <div class="doctor-info">
@@ -929,22 +1001,26 @@
                                 <span><i class="fas fa-star"></i> 4.7</span>
                                 <span><i class="fas fa-briefcase"></i> 7 years</span>
                             </div>
+                            <a href="#" class="view-profile">View Full Profile</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Doctor Schedule -->
+            <!-- Enhanced Doctor Schedule -->
             <div class="section">
-                <h2 class="section-title"><i class="fas fa-calendar-alt"></i> Doctor Schedule</h2>
-                <div class="table-container">
+                <h2 class="section-title">
+                    <i class="fas fa-calendar-alt"></i>
+                    Doctor Schedule & Availability
+                </h2>
+                <div style="overflow-x: auto;">
                     <table class="schedule-table">
                         <thead>
                             <tr>
                                 <th>Doctor</th>
                                 <th>Specialty</th>
                                 <th>Available Days</th>
-                                <th>Time</th>
+                                <th>Consultation Hours</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -986,9 +1062,9 @@
                             </tr>
                             <tr>
                                 <td><strong>Dr. Yogesh Patil</strong></td>
-                                <td>ENT Surgery and Physician</td>
+                                <td>ENT Surgery & Physician</td>
                                 <td>On Call</td>
-                                <td>24/7 Available</td>
+                                <td>24/7 Emergency</td>
                                 <td><span class="status-badge status-available">Available</span></td>
                             </tr>
                             <tr>
@@ -1013,22 +1089,6 @@
     </div>
 
     <script>
-        // Mobile sidebar toggle
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.querySelector('.mobile-overlay');
-            const isOpen = sidebar.classList.contains('open');
-            
-            if (isOpen) {
-                sidebar.classList.remove('open');
-                overlay.classList.remove('active');
-            } else {
-                sidebar.classList.add('open');
-                overlay.classList.add('active');
-            }
-        }
-
-        // Disease predictor function
         function openDiseasePredictor() {
             const diseaseServiceUrl = window.location.hostname === 'localhost' 
                 ? 'http://localhost:8501' 
@@ -1036,29 +1096,49 @@
             window.open(diseaseServiceUrl, '_blank');
         }
 
-        // Navigation item click handlers
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function() {
-                // Remove active class from all items
-                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-                // Add active class to clicked item
-                this.classList.add('active');
-                
-                // Close sidebar on mobile after selection
-                if (window.innerWidth <= 1024) {
-                    toggleSidebar();
-                }
+        // Enhanced navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation interaction
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                });
             });
+
+            // Search functionality
+            const searchInput = document.querySelector('.search-bar input');
+            searchInput.addEventListener('input', function() {
+                // Add search functionality here
+                console.log('Searching for:', this.value);
+            });
+
+            // Card hover effects
+            const cards = document.querySelectorAll('.card, .doctor-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Add loading states and smooth transitions
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 500);
+
+            // Check if user is logged in (commented out localStorage usage)
+            // const user = localStorage.getItem('user');
+            // if (!user) {
+            //     alert('Please login to access the dashboard');
+            //     window.location.href = 'login.html';
+            // }
         });
 
-        // Search functionality
-        document.querySelector('.search-bar input').addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            // Add search functionality here
-            console.log('Searching for:', searchTerm);
-        });
-
-        // Smooth scrolling for anchor links
+        // Add smooth scrolling for better UX
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1070,59 +1150,6 @@
                     });
                 }
             });
-        });
-
-        // Add loading animation to cards on page load
-        window.addEventListener('load', function() {
-            document.querySelectorAll('.card').forEach((card, index) => {
-                card.style.animationDelay = `${index * 100}ms`;
-                card.classList.add('loading');
-                
-                setTimeout(() => {
-                    card.classList.remove('loading');
-                }, 1000);
-            });
-        });
-
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', function(e) {
-            const sidebar = document.getElementById('sidebar');
-            const toggle = document.querySelector('.mobile-menu-toggle');
-            
-            if (window.innerWidth <= 1024 && 
-                !sidebar.contains(e.target) && 
-                !toggle.contains(e.target) && 
-                sidebar.classList.contains('open')) {
-                toggleSidebar();
-            }
-        });
-
-        // Handle window resize
-        window.addEventListener('resize', function() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.querySelector('.mobile-overlay');
-            
-            if (window.innerWidth > 1024) {
-                sidebar.classList.remove('open');
-                overlay.classList.remove('active');
-            }
-        });
-
-        // Check if user is logged in (optional)
-        document.addEventListener('DOMContentLoaded', function() {
-            // Uncomment if you want login check
-            // const user = localStorage.getItem('user');
-            // if (!user) {
-            //     alert('Please login to access the dashboard');
-            //     window.location.href = 'login.html';
-            // }
-            
-            // Add fade-in animation
-            document.body.style.opacity = '0';
-            setTimeout(() => {
-                document.body.style.transition = 'opacity 0.5s ease-in-out';
-                document.body.style.opacity = '1';
-            }, 100);
         });
     </script>
 </body>
