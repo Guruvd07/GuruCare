@@ -1,0 +1,29 @@
+/* Font Awesome Icons */
+.fa {
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+}
+
+.fa-ambulance:before {
+  content: "🚑";
+}
+.fa-long-arrow-right:before {
+  content: "→";
+}
+.fa-caret-right:before {
+  content: "▶";
+}
+.fa-facebook:before {
+  content: "📘";
+}
+.fa-twitter:before {
+  content: "🐦";
+}
+.fa-linkedin:before {
+  content: "💼";
+}
+.fa-youtube:before {
+  content: "📺";
+}

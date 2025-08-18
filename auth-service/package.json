@@ -1,0 +1,21 @@
+{
+  "name": "medical-auth-server",
+  "version": "1.0.0",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["medical", "authentication", "healthcare"],
+  "author": "Team Sashwat",
+  "license": "ISC",
+  "description": "Authentication service for medical application",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0"
+  }
+}

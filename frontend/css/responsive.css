@@ -1,0 +1,100 @@
+/* Responsive Styles */
+@media (max-width: 1200px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (max-width: 992px) {
+  .container {
+    max-width: 720px;
+  }
+
+  .text h1 {
+    font-size: 36px;
+  }
+
+  .section-title h2 {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: 540px;
+  }
+
+  .header-inner {
+    padding: 10px 0;
+  }
+
+  .slider {
+    margin-top: 70px;
+    padding: 60px 0;
+  }
+
+  .text h1 {
+    font-size: 28px;
+  }
+
+  .text p {
+    font-size: 16px;
+  }
+
+  .single-slider {
+    min-height: 400px;
+  }
+
+  .schedule,
+  .Feautes,
+  .services {
+    padding: 60px 0;
+  }
+
+  .call-action {
+    padding: 60px 0;
+  }
+
+  .call-action h2 {
+    font-size: 24px;
+  }
+
+  .section-title h2 {
+    font-size: 24px;
+  }
+
+  .get-quote {
+    flex-direction: column !important;
+    gap: 5px !important;
+  }
+
+  .dropdown {
+    width: 100%;
+  }
+
+  .btn-login,
+  .btn-register {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding: 0 10px;
+  }
+
+  .single-schedule,
+  .single-features,
+  .single-service {
+    padding: 30px 20px;
+  }
+
+  .newsletter-inner {
+    flex-direction: column;
+  }
+
+  .common-input {
+    margin-bottom: 10px;
+  }
+}

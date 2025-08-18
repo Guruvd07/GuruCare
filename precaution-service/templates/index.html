@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Precautions - Team Sashwat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .result {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .result h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .precaution-list {
+            list-style: none;
+        }
+        
+        .precaution-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+            color: #555;
+        }
+        
+        .precaution-list li:before {
+            content: "✓ ";
+            color: #4caf50;
+            font-weight: bold;
+        }
+        
+        .error {
+            color: #e74c3c;
+            background: #ffeaea;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Medical Precautions</h1>
+            <p>Get personalized health recommendations</p>
+        </div>
+        
+        <form id="precautionForm">
+            <div class="form-group">
+                <label for="disease">Enter Disease Name:</label>
+                <input type="text" id="disease" name="disease" placeholder="e.g., Common Cold, Flu, etc." required>
+            </div>
+            <button type="submit" class="btn">Get Precautions</button>
+        </form>
+        
+        <div id="result" class="result">
+            <h3>Recommended Precautions for: <span id="diseaseName"></span></h3>
+            <ul id="precautionList" class="precaution-list"></ul>
+        </div>
+        
+        <div id="error" class="error"></div>
+    </div>
+
+    <script>
+        document.getElementById('precautionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const disease = document.getElementById('disease').value.trim();
+            const resultDiv = document.getElementById('result');
+            const errorDiv = document.getElementById('error');
+            
+            // Hide previous results
+            resultDiv.style.display = 'none';
+            errorDiv.style.display = 'none';
+            
+            if (!disease) {
+                showError('Please enter a disease name');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ disease: disease })
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    showError(data.error);
+                } else {
+                    showResult(data.disease, data.precautions);
+                }
+            } catch (error) {
+                showError('Failed to get precautions. Please try again.');
+            }
+        });
+        
+        function showResult(disease, precautions) {
+            document.getElementById('diseaseName').textContent = disease;
+            const precautionList = document.getElementById('precautionList');
+            precautionList.innerHTML = '';
+            
+            precautions.forEach(precaution => {
+                const li = document.createElement('li');
+                li.textContent = precaution;
+                precautionList.appendChild(li);
+            });
+            
+            document.getElementById('result').style.display = 'block';
+        }
+        
+        function showError(message) {
+            document.getElementById('error').textContent = message;
+            document.getElementById('error').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

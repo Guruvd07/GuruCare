@@ -1,0 +1,40 @@
+{
+  "services": {
+    "authentication": {
+      "name": "medical-auth-service",
+      "url": "https://medical-auth-service.onrender.com",
+      "type": "Node.js/Express",
+      "endpoints": ["/health", "/api/login", "/api/register"]
+    },
+    "disease_prediction": {
+      "name": "medical-disease-service",
+      "url": "https://medical-disease-service.onrender.com",
+      "type": "Streamlit/Python",
+      "endpoints": ["/ (Streamlit UI)"]
+    },
+    "precaution": {
+      "name": "medical-precaution-service",
+      "url": "https://medical-precaution-service.onrender.com",
+      "type": "Flask/Python",
+      "endpoints": ["/health", "/predict", "/api/precautions/<disease>"]
+    },
+    "frontend": {
+      "name": "medical-frontend",
+      "url": "https://medical-frontend.onrender.com",
+      "type": "Static Site",
+      "pages": ["/index.html", "/login.html", "/register.html", "/patient_dashboard.html"]
+    }
+  },
+  "update_instructions": {
+    "frontend_files_to_update": [
+      "frontend/login.html - Update API_BASE_URL",
+      "frontend/register.html - Update API_BASE_URL",
+      "frontend/patient_dashboard.html - Update diseaseServiceUrl"
+    ],
+    "backend_env_vars_to_update": [
+      "auth-service: FRONTEND_URL",
+      "disease-service: PRECAUTION_SERVICE_URL",
+      "precaution-service: FRONTEND_URL"
+    ]
+  }
+}

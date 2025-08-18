@@ -1,0 +1,58 @@
+/* Icofont Icons */
+.icofont {
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+}
+
+.icofont-prescription:before {
+  content: "📋";
+}
+.icofont-ui-clock:before {
+  content: "🕐";
+}
+.icofont-ambulance-cross:before {
+  content: "🚑";
+}
+.icofont-medical-sign-alt:before {
+  content: "⚕️";
+}
+.icofont-stethoscope:before {
+  content: "🩺";
+}
+.icofont-heart-beat:before {
+  content: "💓";
+}
+.icofont-brain:before {
+  content: "🧠";
+}
+.icofont-dna-alt-1:before {
+  content: "🧬";
+}
+.icofont-crutch:before {
+  content: "🩼";
+}
+.icofont-tooth:before {
+  content: "🦷";
+}
+.icofont-google-map:before {
+  content: "📍";
+}
+.icofont-ui-call:before {
+  content: "📞";
+}
+.icofont-envelope:before {
+  content: "✉️";
+}
+.icofont-facebook:before {
+  content: "📘";
+}
+.icofont-twitter:before {
+  content: "🐦";
+}
+.icofont-linkedin:before {
+  content: "💼";
+}
+.icofont-youtube:before {
+  content: "📺";
+}
