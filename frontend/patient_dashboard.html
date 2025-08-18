@@ -6,49 +6,75 @@
     <title>Patient Dashboard - MediCare</title>
     <style>
         :root {
-            --primary-color: #3fbbc0;
-            --secondary-color: #65c9cd;
-            --dark-color: #222222;
-            --light-color: #f7f7f7;
-            --danger-color: #ff4757;
-            --success-color: #2ed573;
-            --warning-color: #ffa502;
-            --info-color: #1e90ff;
-            --font-primary: 'Poppins', sans-serif;
+            --primary-color: #14b8a6;
+            --primary-hover: #0d9488;
+            --secondary-color: #06b6d4;
+            --accent-color: #f59e0b;
+            --dark-color: #1f2937;
+            --darker-color: #111827;
+            --light-color: #f8fafc;
+            --white: #ffffff;
+            --danger-color: #ef4444;
+            --success-color: #22c55e;
+            --warning-color: #f59e0b;
+            --info-color: #3b82f6;
+            --border-color: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --border-radius: 12px;
+            --border-radius-lg: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: var(--font-primary);
         }
 
         body {
-            background-color: #f5f7fa;
-            color: var(--dark-color);
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            color: var(--text-primary);
+            font-family: var(--font-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
         .dashboard-container {
             display: grid;
-            grid-template-columns: 250px 1fr;
+            grid-template-columns: 280px 1fr;
             min-height: 100vh;
+            position: relative;
         }
 
         /* Sidebar Styles */
         .sidebar {
-            background: var(--dark-color);
+            background: linear-gradient(180deg, var(--darker-color) 0%, var(--dark-color) 100%);
             color: white;
-            padding: 20px 0;
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
             height: 100vh;
+            width: 280px;
+            z-index: 1000;
+            transition: var(--transition);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
         }
 
         .profile-section {
             text-align: center;
-            padding: 20px;
+            padding: 32px 24px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .profile-img {
@@ -57,342 +83,584 @@
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid var(--primary-color);
-            margin-bottom: 10px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition);
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05);
+            border-color: var(--secondary-color);
         }
 
         .profile-name {
             font-size: 18px;
             font-weight: 600;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            color: white;
         }
 
         .profile-email {
-            font-size: 12px;
+            font-size: 13px;
             opacity: 0.8;
+            color: #cbd5e1;
         }
 
         .nav-menu {
-            margin-top: 30px;
+            padding: 24px 0;
         }
 
         .nav-item {
-            padding: 12px 20px;
+            margin: 4px 16px;
+            padding: 16px 20px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
             display: flex;
             align-items: center;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            color: #cbd5e1;
+            position: relative;
+            overflow: hidden;
         }
 
-        .nav-item:hover, .nav-item.active {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-left: 3px solid var(--primary-color);
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .nav-item:hover::before,
+        .nav-item.active::before {
+            width: 100%;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            color: white;
+            transform: translateX(4px);
+            box-shadow: var(--shadow-lg);
         }
 
         .nav-item i {
-            margin-right: 10px;
+            margin-right: 16px;
             font-size: 18px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 24px;
+            left: 24px;
+            z-index: 1100;
+            background: var(--white);
+            border: none;
+            padding: 12px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .mobile-menu-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-xl);
         }
 
         /* Main Content Styles */
         .main-content {
-            padding: 30px;
+            padding: 32px;
+            margin-left: 0;
         }
 
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 24px 32px;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .page-title {
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--dark-color);
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .search-bar {
             display: flex;
             align-items: center;
-            background: white;
-            padding: 8px 15px;
-            border-radius: 30px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            width: 300px;
+            background: var(--white);
+            padding: 12px 20px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-md);
+            width: 320px;
+            border: 2px solid transparent;
+            transition: var(--transition);
+        }
+
+        .search-bar:focus-within {
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
         }
 
         .search-bar input {
             border: none;
             outline: none;
-            padding: 5px;
+            padding: 8px;
             width: 100%;
-            font-size: 14px;
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+
+        .search-bar input::placeholder {
+            color: var(--text-secondary);
         }
 
         .search-bar i {
-            color: #777;
-            margin-right: 10px;
+            color: var(--text-secondary);
+            margin-right: 12px;
+            font-size: 18px;
         }
 
+        /* Stats Cards */
         .cards-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
         }
 
         .card {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s;
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
         }
 
         .card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary-color);
         }
 
         .card-title {
             font-size: 16px;
             font-weight: 600;
-            margin-bottom: 15px;
-            color: var(--primary-color);
+            margin-bottom: 20px;
+            color: var(--text-secondary);
             display: flex;
             align-items: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .card-title i {
-            margin-right: 10px;
+            margin-right: 12px;
+            font-size: 20px;
+            color: var(--primary-color);
+            background: rgba(20, 184, 166, 0.1);
+            padding: 8px;
+            border-radius: 8px;
         }
 
         .card-value {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 10px;
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+            line-height: 1;
         }
 
         .card-description {
-            font-size: 14px;
-            color: #777;
+            font-size: 15px;
+            color: var(--text-secondary);
+            font-weight: 500;
         }
 
+        /* Action Buttons */
         .action-buttons {
             display: flex;
-            gap: 15px;
-            margin: 30px 0;
-            text-decoration: none;
+            gap: 20px;
+            margin: 40px 0;
+            flex-wrap: wrap;
         }
 
         .btn {
-            padding: 12px 25px;
-            border-radius: 5px;
-            font-weight: 500;
+            padding: 16px 32px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
             border: none;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             text-decoration: none;
+            font-size: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: var(--transition);
+            transform: translate(-50%, -50%);
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .btn-primary {
-            background: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
             color: white;
-            text-decoration: none;
+            box-shadow: var(--shadow-md);
         }
 
         .btn-primary:hover {
-            background: #2fa4a9;
-            text-decoration: none;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
         }
 
         .btn-secondary {
-            background: var(--info-color);
+            background: linear-gradient(135deg, var(--secondary-color), var(--info-color));
             color: white;
-            text-decoration: none;
+            box-shadow: var(--shadow-md);
         }
 
         .btn-secondary:hover {
-            background: #1a7fd8;
-            text-decoration: none;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
         }
 
         .btn i {
-            margin-right: 8px;
-            text-decoration: none;
+            margin-right: 10px;
+            font-size: 16px;
         }
 
-        /* Hospital Info Section */
+        /* Section Styles */
         .section {
-            background: white;
-            border-radius: 10px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .section:hover {
+            box-shadow: var(--shadow-lg);
         }
 
         .section-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: var(--dark-color);
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 32px;
+            color: var(--text-primary);
             display: flex;
             align-items: center;
+            position: relative;
+            padding-bottom: 16px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
         }
 
         .section-title i {
-            margin-right: 10px;
+            margin-right: 16px;
+            font-size: 24px;
             color: var(--primary-color);
+            background: rgba(20, 184, 166, 0.1);
+            padding: 12px;
+            border-radius: var(--border-radius);
         }
 
+        /* Hospital Info */
         .hospital-info {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
         }
 
         .info-item {
             display: flex;
             align-items: flex-start;
-            margin-bottom: 15px;
+            padding: 24px;
+            background: rgba(20, 184, 166, 0.02);
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(20, 184, 166, 0.1);
+            transition: var(--transition);
+        }
+
+        .info-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
         }
 
         .info-icon {
-            background: rgba(63, 187, 192, 0.1);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            width: 56px;
+            height: 56px;
+            border-radius: var(--border-radius);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 15px;
-            color: var(--primary-color);
-            font-size: 18px;
+            margin-right: 20px;
+            color: white;
+            font-size: 20px;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-md);
         }
 
         .info-content h4 {
-            font-size: 16px;
-            margin-bottom: 5px;
-            color: var(--dark-color);
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            font-weight: 600;
         }
 
         .info-content p {
-            font-size: 14px;
-            color: #777;
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
         }
 
-        /* Doctors Section */
+        /* Doctors Grid */
         .doctors-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
         }
 
         .doctor-card {
-            background: white;
-            border-radius: 10px;
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .doctor-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
         }
 
         .doctor-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary-color);
         }
 
         .doctor-img {
             width: 100%;
             height: 200px;
             object-fit: cover;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         }
 
         .doctor-info {
-            padding: 20px;
+            padding: 32px;
         }
 
         .doctor-name {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 5px;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
         }
 
         .doctor-specialty {
             color: var(--primary-color);
-            font-size: 14px;
-            margin-bottom: 10px;
+            font-size: 15px;
+            margin-bottom: 20px;
             display: block;
+            font-weight: 600;
+            background: rgba(20, 184, 166, 0.1);
+            padding: 8px 12px;
+            border-radius: 20px;
+            width: fit-content;
         }
 
         .doctor-meta {
             display: flex;
             justify-content: space-between;
-            margin-top: 15px;
-            font-size: 13px;
-            color: #777;
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .doctor-meta span {
+            display: flex;
+            align-items: center;
+            background: rgba(107, 114, 128, 0.1);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-weight: 500;
         }
 
         .doctor-meta i {
-            margin-right: 5px;
+            margin-right: 6px;
+            color: var(--warning-color);
         }
 
-        .view-profile {
-            display: inline-block;
-            margin-top: 15px;
-            color: var(--primary-color);
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
+        /* Schedule Table */
+        .table-container {
+            overflow-x: auto;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
         }
 
-        /* Schedule Section */
         .schedule-table {
             width: 100%;
             border-collapse: collapse;
+            background: var(--white);
         }
 
-        .schedule-table th, .schedule-table td {
-            padding: 12px 15px;
+        .schedule-table th,
+        .schedule-table td {
+            padding: 20px 24px;
             text-align: left;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .schedule-table th {
-            background: rgba(63, 187, 192, 0.1);
-            color: var(--dark-color);
-            font-weight: 600;
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(6, 182, 212, 0.1));
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .schedule-table tr {
+            transition: var(--transition);
         }
 
         .schedule-table tr:hover {
-            background: rgba(63, 187, 192, 0.05);
+            background: rgba(20, 184, 166, 0.02);
         }
 
-        .status-badge {
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
+        .schedule-table td {
+            font-size: 15px;
+            color: var(--text-primary);
             font-weight: 500;
         }
 
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
         .status-available {
-            background: rgba(46, 213, 115, 0.1);
+            background: rgba(34, 197, 94, 0.1);
             color: var(--success-color);
+            border: 1px solid rgba(34, 197, 94, 0.2);
         }
 
         .status-unavailable {
-            background: rgba(255, 71, 87, 0.1);
+            background: rgba(239, 68, 68, 0.1);
             color: var(--danger-color);
+            border: 1px solid rgba(239, 68, 68, 0.2);
         }
 
-        /* Responsive Styles */
-        @media (max-width: 992px) {
+        /* Responsive Design */
+        @media (max-width: 1024px) {
             .dashboard-container {
                 grid-template-columns: 1fr;
             }
+
             .sidebar {
-                display: none;
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 24px;
+            }
+
+            .header {
+                padding: 20px 24px;
+            }
+
+            .page-title {
+                font-size: 24px;
+                margin-left: 60px;
+            }
+
+            .search-bar {
+                width: 100%;
+                margin-top: 16px;
             }
         }
 
@@ -400,28 +668,104 @@
             .header {
                 flex-direction: column;
                 align-items: flex-start;
+                gap: 16px;
             }
+
+            .page-title {
+                margin-left: 0;
+                font-size: 20px;
+            }
+
             .search-bar {
                 width: 100%;
-                margin-top: 15px;
+                margin-top: 0;
             }
+
             .action-buttons {
                 flex-direction: column;
             }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .hospital-info {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .doctors-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .section {
+                padding: 24px;
+                margin-bottom: 24px;
+            }
+
+            .main-content {
+                padding: 16px;
+            }
+        }
+
+        /* Mobile Overlay */
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+        }
+
+        .mobile-overlay.active {
+            display: block;
+        }
+
+        /* Loading Animation */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .loading {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <button class="mobile-menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="mobile-overlay" onclick="toggleSidebar()"></div>
+
     <div class="dashboard-container">
         <!-- Sidebar -->
-        <div class="sidebar">
-            <!-- <div class="profile-section">
-                <img src="/mediplus-lite/guru.jpg" alt="Profile" class="profile-img">
-                <h3 class="profile-name">Guru Dahiphale</h3>
-                <p class="profile-email">guruprasaddahiphale7@gmai.com</p>
-            </div> -->
+        <div class="sidebar" id="sidebar">
+            <div class="profile-section">
+                <div class="profile-img" style="background: linear-gradient(135deg, #14b8a6, #06b6d4); display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: bold;">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h3 class="profile-name">Patient Portal</h3>
+                <p class="profile-email">Welcome to MediCare</p>
+            </div>
             <div class="nav-menu">
                 <div class="nav-item active">
                     <i class="fas fa-home"></i>
@@ -460,7 +804,7 @@
                 <h1 class="page-title">Patient Dashboard</h1>
                 <div class="search-bar">
                     <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search...">
+                    <input type="text" placeholder="Search doctors, appointments, records...">
                 </div>
             </div>
 
@@ -469,30 +813,33 @@
                 <div class="card">
                     <h3 class="card-title"><i class="fas fa-user-md"></i> Available Doctors</h3>
                     <h2 class="card-value">11</h2>
-                    <p class="card-description">Specialists ready to help you</p>
+                    <p class="card-description">Specialists ready to help you today</p>
                 </div>
                 <div class="card">
                     <h3 class="card-title"><i class="fas fa-calendar"></i> Upcoming Appointments</h3>
                     <h2 class="card-value">2</h2>
-                    <p class="card-description">Your next visit is tomorrow</p>
+                    <p class="card-description">Your next visit is tomorrow at 10:00 AM</p>
                 </div>
                 <div class="card">
                     <h3 class="card-title"><i class="fas fa-hospital"></i> Departments</h3>
                     <h2 class="card-value">11</h2>
-                    <p class="card-description">Specialized care units</p>
+                    <p class="card-description">Specialized medical care units</p>
                 </div>
             </div>
 
             <!-- Action Buttons -->
             <div class="action-buttons">
-                <button class="btn btn-secondary">
-                    <a href="#" onclick="openDiseasePredictor()"><i class="fas fa-diagnoses"></i> Predict Disease</a> 
+                <button class="btn btn-secondary" onclick="openDiseasePredictor()">
+                    <i class="fas fa-diagnoses"></i> AI Disease Predictor
+                </button>
+                <button class="btn btn-primary">
+                    <i class="fas fa-calendar-plus"></i> Book Appointment
                 </button>
             </div>
 
             <!-- Hospital Information -->
             <div class="section">
-                <h2 class="section-title"><i class="fas fa-info-circle"></i> Hospital Information</h2>
+                <h2 class="section-title"><i class="fas fa-hospital"></i> Hospital Information</h2>
                 <div class="hospital-info">
                     <div class="info-item">
                         <div class="info-icon">
@@ -500,7 +847,7 @@
                         </div>
                         <div class="info-content">
                             <h4>Location</h4>
-                            <p>Near Sant Gajanan Maharaj Bhakti Niwas , Oppo. MIT ( ACS ) College , <br>Dehu Fata , Alandi Devachi , Tal - Khed , Dist - Pune 412105 </p>
+                            <p>Near Sant Gajanan Maharaj Bhakti Niwas, Opposite MIT (ACS) College, Dehu Fata, Alandi Devachi, Tal - Khed, Dist - Pune 412105</p>
                         </div>
                     </div>
                     
@@ -509,25 +856,27 @@
                             <i class="fas fa-phone-alt"></i>
                         </div>
                         <div class="info-content">
-                            <h4>Emergency</h4>
-                            <p>+91 776-908-1996 / 820-801-2952</p>
+                            <h4>Emergency Hotline</h4>
+                            <p>+91 776-908-1996<br>+91 820-801-2952</p>
                         </div>
                     </div>
+                    
                     <div class="info-item">
                         <div class="info-icon">
                             <i class="fas fa-clock"></i>
                         </div>
                         <div class="info-content">
-                            <h4>Opening Hours</h4>
-                            <p>🕒 Hospital Timings: Open 24/7 (Monday to Sunday)</p>
+                            <h4>Operating Hours</h4>
+                            <p>🕒 24/7 Emergency Services<br>Monday to Sunday</p>
                         </div>
                     </div>
+                    
                     <div class="info-item">
                         <div class="info-icon">
                             <i class="fas fa-envelope"></i>
                         </div>
                         <div class="info-content">
-                            <h4>Contact</h4>
+                            <h4>Contact Information</h4>
                             <p>sumeetkachare@gmail.com<br>+91 776-908-1996</p>
                         </div>
                     </div>
@@ -540,43 +889,46 @@
                 <div class="doctors-grid">
                     <!-- Doctor 1 -->
                     <div class="doctor-card">
-                        <!-- <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Doctor" class="doctor-img"> -->
+                        <div class="doctor-img" style="display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+                            <i class="fas fa-user-md"></i>
+                        </div>
                         <div class="doctor-info">
-                            <h3 class="doctor-name">Dr. Rohit Kachare </h3>
-                            <span class="doctor-specialty">BHMS , PGDMS , DNYS.C.C.H</span>
-                            
+                            <h3 class="doctor-name">Dr. Rohit Kachare</h3>
+                            <span class="doctor-specialty">BHMS, PGDMS, DNYS.C.C.H</span>
                             <div class="doctor-meta">
                                 <span><i class="fas fa-star"></i> 4.9</span>
-                                <span><i class="fas fa-briefcase"></i> 8 yrs</span>
+                                <span><i class="fas fa-briefcase"></i> 8 years</span>
                             </div>
-                         
                         </div>
                     </div>
+                    
                     <!-- Doctor 2 -->
                     <div class="doctor-card">
-                        <!-- <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Doctor" class="doctor-img"> -->
+                        <div class="doctor-img" style="display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+                            <i class="fas fa-user-md"></i>
+                        </div>
                         <div class="doctor-info">
                             <h3 class="doctor-name">Dr. Snehal Kachare</h3>
-                            <span class="doctor-specialty">BAMS C.C.H.,C,GO</span>
-                          
+                            <span class="doctor-specialty">BAMS C.C.H., C,GO</span>
                             <div class="doctor-meta">
                                 <span><i class="fas fa-star"></i> 4.8</span>
-                                <span><i class="fas fa-briefcase"></i> 12 yrs</span>
+                                <span><i class="fas fa-briefcase"></i> 12 years</span>
                             </div>
                         </div>
                     </div>
+                    
                     <!-- Doctor 3 -->
                     <div class="doctor-card">
-                        <!-- <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Doctor" class="doctor-img"> -->
+                        <div class="doctor-img" style="display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+                            <i class="fas fa-user-md"></i>
+                        </div>
                         <div class="doctor-info">
                             <h3 class="doctor-name">Dr. Sumeet Kachare</h3>
-                            <span class="doctor-specialty">B.H.M.S. , PG , DMS , DNYS , CCH </span>
-                           
+                            <span class="doctor-specialty">B.H.M.S., PG, DMS, DNYS, CCH</span>
                             <div class="doctor-meta">
                                 <span><i class="fas fa-star"></i> 4.7</span>
-                                <span><i class="fas fa-briefcase"></i> 7 yrs</span>
+                                <span><i class="fas fa-briefcase"></i> 7 years</span>
                             </div>
-                           
                         </div>
                     </div>
                 </div>
@@ -585,82 +937,98 @@
             <!-- Doctor Schedule -->
             <div class="section">
                 <h2 class="section-title"><i class="fas fa-calendar-alt"></i> Doctor Schedule</h2>
-                <table class="schedule-table">
-                    <thead>
-                        <tr>
-                            <th>Doctor</th>
-                            <th>Specialty</th>
-                            <th>Day</th>
-                            <th>Time</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Dr. Amol Gagare</td>
-                            <td>Internal Medicine</td>
-                            <td>Monday - Saturday</td>
-                            <td>10:00 AM - 2:00 PM</td>
-                            <td><span class="status-badge status-available">Available</span></td>
-                        </tr>
-                        <tr>
-                            <td>Dr. Abhijit Kudale</td>
-                            <td>Paediatrics</td>
-                            <td>Tuesday</td>
-                            <td>06:00 PM - 8:00 PM</td>
-                            <td><span class="status-badge status-available">Available</span></td>
-                        </tr>
-                        <tr>
-                            <td>Dr. Gaurav Raut</td>
-                            <td>General Surgery</td>
-                            <td>Wednesday - Wednesday</td>
-                            <td>5:00 PM - 7:00 PM</td>
-                            <td><span class="status-badge status-available">Avaialble</span></td>
-                        </tr>
-                        <tr>
-                            <td>Dr. Santosh Kurle</td>
-                            <td>Orthop Sergery</td>
-                            <td>Wednesday - Tuesday</td>
-                            <td>07:00 PM - 9:00 PM</td>
-                            <td><span class="status-badge status-available">Available</span></td>
-                        </tr>
-                        <tr>
-                            <td>Dr. Ashish Chaudhari</td>
-                            <td>Obstretics & Gynecology</td>
-                            <td>Thursday - Saturday</td>
-                            <td>10:00 AM - 1:00 PM</td>
-                            <td><span class="status-badge status-available">Available</span></td>
-                        </tr>
-                        <tr>
-                            <td>Dr. Yogesh Patil</td>
-                            <td>ENT Surgery and Physician</td>
-                            <td>On Call</td>
-                            <td></td>
-
-                            <td><span class="status-badge status-available">Available</span></td>
-                        </tr>
-                        <tr>
-                            <td>Dr. Bhushan Chaudhari</td>
-                            <td>Psychiatry</td>
-                            <td>Friday</td>
-                            <td>10:00 AM - 12:00 PM</td>
-                            <td><span class="status-badge status-available">Available</span></td>
-                        </tr>
-                        <tr>
-                            <td>Dr. Ankush Kachare</td>
-                            <td>Physiotherapy</td>
-                            <td>Monday - Saturday</td>
-                            <td>06:00 PM - 09:00 PM</td>
-                            <td><span class="status-badge status-available">Available</span></td>
-                        </tr>
-                    </tbody>
-
-                </table>
+                <div class="table-container">
+                    <table class="schedule-table">
+                        <thead>
+                            <tr>
+                                <th>Doctor</th>
+                                <th>Specialty</th>
+                                <th>Available Days</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Dr. Amol Gagare</strong></td>
+                                <td>Internal Medicine</td>
+                                <td>Monday - Saturday</td>
+                                <td>10:00 AM - 2:00 PM</td>
+                                <td><span class="status-badge status-available">Available</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dr. Abhijit Kudale</strong></td>
+                                <td>Paediatrics</td>
+                                <td>Tuesday</td>
+                                <td>6:00 PM - 8:00 PM</td>
+                                <td><span class="status-badge status-available">Available</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dr. Gaurav Raut</strong></td>
+                                <td>General Surgery</td>
+                                <td>Wednesday</td>
+                                <td>5:00 PM - 7:00 PM</td>
+                                <td><span class="status-badge status-available">Available</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dr. Santosh Kurle</strong></td>
+                                <td>Orthopedic Surgery</td>
+                                <td>Wednesday - Tuesday</td>
+                                <td>7:00 PM - 9:00 PM</td>
+                                <td><span class="status-badge status-available">Available</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dr. Ashish Chaudhari</strong></td>
+                                <td>Obstetrics & Gynecology</td>
+                                <td>Thursday - Saturday</td>
+                                <td>10:00 AM - 1:00 PM</td>
+                                <td><span class="status-badge status-available">Available</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dr. Yogesh Patil</strong></td>
+                                <td>ENT Surgery and Physician</td>
+                                <td>On Call</td>
+                                <td>24/7 Available</td>
+                                <td><span class="status-badge status-available">Available</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dr. Bhushan Chaudhari</strong></td>
+                                <td>Psychiatry</td>
+                                <td>Friday</td>
+                                <td>10:00 AM - 12:00 PM</td>
+                                <td><span class="status-badge status-available">Available</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dr. Ankush Kachare</strong></td>
+                                <td>Physiotherapy</td>
+                                <td>Monday - Saturday</td>
+                                <td>6:00 PM - 9:00 PM</td>
+                                <td><span class="status-badge status-available">Available</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
+        // Mobile sidebar toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.querySelector('.mobile-overlay');
+            const isOpen = sidebar.classList.contains('open');
+            
+            if (isOpen) {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+            } else {
+                sidebar.classList.add('open');
+                overlay.classList.add('active');
+            }
+        }
+
+        // Disease predictor function
         function openDiseasePredictor() {
             const diseaseServiceUrl = window.location.hostname === 'localhost' 
                 ? 'http://localhost:8501' 
@@ -668,15 +1036,94 @@
             window.open(diseaseServiceUrl, '_blank');
         }
 
-        // Check if user is logged in
-        document.addEventListener('DOMContentLoaded', function() {
-            const user = localStorage.getItem('user');
-            if (!user) {
-                alert('Please login to access the dashboard');
-                window.location.href = 'login.html';
+        // Navigation item click handlers
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all items
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                // Add active class to clicked item
+                this.classList.add('active');
+                
+                // Close sidebar on mobile after selection
+                if (window.innerWidth <= 1024) {
+                    toggleSidebar();
+                }
+            });
+        });
+
+        // Search functionality
+        document.querySelector('.search-bar input').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            // Add search functionality here
+            console.log('Searching for:', searchTerm);
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add loading animation to cards on page load
+        window.addEventListener('load', function() {
+            document.querySelectorAll('.card').forEach((card, index) => {
+                card.style.animationDelay = `${index * 100}ms`;
+                card.classList.add('loading');
+                
+                setTimeout(() => {
+                    card.classList.remove('loading');
+                }, 1000);
+            });
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(e) {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (window.innerWidth <= 1024 && 
+                !sidebar.contains(e.target) && 
+                !toggle.contains(e.target) && 
+                sidebar.classList.contains('open')) {
+                toggleSidebar();
             }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.querySelector('.mobile-overlay');
+            
+            if (window.innerWidth > 1024) {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+            }
+        });
+
+        // Check if user is logged in (optional)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Uncomment if you want login check
+            // const user = localStorage.getItem('user');
+            // if (!user) {
+            //     alert('Please login to access the dashboard');
+            //     window.location.href = 'login.html';
+            // }
+            
+            // Add fade-in animation
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease-in-out';
+                document.body.style.opacity = '1';
+            }, 100);
         });
     </script>
 </body>
 </html>
-</merged_code>
