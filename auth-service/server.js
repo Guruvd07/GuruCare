@@ -21,7 +21,7 @@ if (!fs.existsSync(DATA_FILE)) {
 }
 
 /* ------------------------------------------------------------------ */
-/* CORS: allow your deployed frontend + localhost in dev               */
+/* CORS Setup                                                          */
 /* ------------------------------------------------------------------ */
 const isProd = process.env.NODE_ENV === "production";
 const envOrigins =
@@ -77,35 +77,50 @@ const readUsers = () => {
 const writeUsers = (users) => {
   try {
     fs.writeFileSync(DATA_FILE, JSON.stringify(users, null, 2));
-    console.log("Users file updated successfully");
+    console.log("✅ Users file updated successfully");
   } catch (error) {
-    console.error("Error writing users file:", error);
+    console.error("❌ Error writing users file:", error);
   }
 };
 
 /* ------------------------------------------------------------------ */
-/* Routes                                                              */
+/* Routes: Register + Login                                            */
 /* ------------------------------------------------------------------ */
 app.post("/api/register", (req, res) => {
-  console.log("Registration attempt:", req.body);
+  console.log("📩 Registration attempt:", req.body);
+
   const { fullName, email, password } = req.body;
 
   if (!fullName || !email || !password) {
     return res.status(400).json({ error: "All fields are required." });
   }
 
+  // simple validations
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ error: "Invalid email format." });
+  }
+  if (password.length < 6) {
+    return res.status(400).json({ error: "Password must be at least 6 characters long." });
+  }
+
   const users = readUsers();
-  if (users.find((u) => u.email === email)) {
+  if (users.find((u) => u.email.toLowerCase() === email.toLowerCase())) {
     return res.status(400).json({ error: "Email already registered." });
   }
 
   const hashedPassword = bcrypt.hashSync(password, 10);
-  const newUser = { fullName, email, password: hashedPassword };
+  const newUser = { 
+    fullName, 
+    email: email.toLowerCase(), 
+    password: hashedPassword, 
+    createdAt: new Date().toISOString() 
+  };
   users.push(newUser);
   writeUsers(users);
 
-  console.log("New user registered:", { email, fullName });
-  return res.json({
+  console.log("✅ New user registered:", { email, fullName });
+  return res.status(201).json({
     message: "User registered successfully",
     user: { fullName, email },
   });
@@ -113,9 +128,12 @@ app.post("/api/register", (req, res) => {
 
 app.post("/api/login", (req, res) => {
   const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email and password are required." });
+  }
 
   const users = readUsers();
-  const user = users.find((u) => u.email === email);
+  const user = users.find((u) => u.email.toLowerCase() === email.toLowerCase());
   if (!user) {
     return res.status(400).json({ error: "Invalid email or password." });
   }
@@ -125,6 +143,7 @@ app.post("/api/login", (req, res) => {
     return res.status(400).json({ error: "Invalid email or password." });
   }
 
+  console.log("✅ Login successful:", email);
   return res.json({
     message: "Login successful",
     user: { fullName: user.fullName, email: user.email },
@@ -135,13 +154,13 @@ app.post("/api/login", (req, res) => {
 /* Error handlers                                                      */
 /* ------------------------------------------------------------------ */
 app.use((err, _req, res, _next) => {
-  console.error(err?.message || err);
+  console.error("⚠️ Error:", err?.message || err);
   const status = err?.message?.startsWith("Not allowed by CORS") ? 403 : 500;
   res.status(status).json({ error: err?.message || "Server error" });
 });
 
 /* ------------------------------------------------------------------ */
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Authentication Server running on port ${PORT}`);
-  console.log("Allowed Origins:", allowedOrigins);
+  console.log(`🚀 Authentication Server running on port ${PORT}`);
+  console.log("🌍 Allowed Origins:", allowedOrigins);
 });
