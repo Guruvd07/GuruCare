@@ -2,15 +2,19 @@ name: Keep Render Services Alive
 
 on:
   schedule:
-    - cron: "*/5 * * * *"   # every 5 minutes
-  workflow_dispatch:        # allows manual trigger from GitHub
+    - cron: "*/10 * * * *"   # Runs every 10 minutes
+  workflow_dispatch:          # Allow manual run
 
 jobs:
-  ping:
+  keepalive:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Hit health endpoints
-        run: |
-          curl -fsS https://medical-auth-service.onrender.com/health || true
-          curl -fsS https://medical-precaution-service.onrender.com/health || true
-          curl -fsS https://medical-disease-service.onrender.com/ || true
+      - name: Curl Precaution Service
+        run: curl -s https://medical-precaution-service.onrender.com || true
+
+      - name: Curl Disease Service
+        run: curl -s https://medical-disease-service.onrender.com || true
+
+      - name: Curl Auth Service
+        run: curl -s https://medical-auth-service.onrender.com || true
